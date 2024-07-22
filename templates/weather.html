@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather for {{ city }}</title>
+</head>
+<body>
+    <h1>Weather for {{ city }}</h1>
+    <p>Current Temperature: {{ weather['current_weather']['temperature'] }} °C</p>
+    <h2>Daily Forecast:</h2>
+    <ul>
+        {% for day in weather['daily']['time'] %}
+            <li>Date: {{ day }} - Max: {{ weather['daily']['temperature_2m_max'][loop.index0] }} °C, Min: {{ weather['daily']['temperature_2m_min'][loop.index0] }} °C</li>
+        {% endfor %}
+    </ul>
+    <a href="/">Back</a>
+</body>
+</html>

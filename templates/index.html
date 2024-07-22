@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+</head>
+<body>
+    <h1>Weather App</h1>
+    <form action="/weather" method="post">
+        <label for="city">Enter City:</label>
+        <input type="text" id="city" name="city" autocomplete="off" placeholder="City name" required>
+        <button type="submit">Get Weather</button>
+    </form>
+    {% if last_city %}
+        <p>Last searched city: {{ last_city }}</p>
+    {% endif %}
+
+    <script>
+        $(function() {
+            $("#city").autocomplete({
+                source: function(request, response) {
+                    $.ajax({
+                        url: "https://nominatim.openstreetmap.org/search",
+                        dataType: "json",
+                        data: {
+                            q: request.term,
+                            format: "json"
+                        },
+                        success: function(data) {
+                            response($.map(data, function(item) {
+                                return {
+                                    label: item.display_name,
+                                    value: item.display_name
+                                };
+                            }));
+                        }
+                    });
+                },
+                minLength: 2
+            });
+        });
+    </script>
+</body>
+</html>
